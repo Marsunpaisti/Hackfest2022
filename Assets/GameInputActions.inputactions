@@ -1,0 +1,71 @@
+{
+    "name": "GameInputActions",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "65f75110-6968-4e66-8b29-9c188729872e",
+            "actions": [
+                {
+                    "name": "Fire",
+                    "type": "Value",
+                    "id": "7062589b-c029-4bb6-b34a-99eff196720f",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "Press(pressPoint=0.15)",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "WandTracked",
+                    "type": "Value",
+                    "id": "aa64922f-9aa2-49f9-bc9f-9adfc24b655b",
+                    "expectedControlType": "Digital",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4b24ef24-45bc-4c16-a048-f9d15b43f6cd",
+                    "path": "<WandDevice>/Trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gameplay",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ffd68e93-42ce-45b5-90a0-72c034ff4d31",
+                    "path": "<WandDevice>/trackingState",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gameplay",
+                    "action": "WandTracked",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Gameplay",
+            "bindingGroup": "Gameplay",
+            "devices": [
+                {
+                    "devicePath": "<XRHMD>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<WandDevice>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
