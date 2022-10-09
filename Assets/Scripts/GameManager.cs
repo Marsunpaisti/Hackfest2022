@@ -6,7 +6,12 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] BoxCollider _spawnZone;
     [SerializeField] BoxCollider _floor;
-    [SerializeField] bool _isGameRunning = false;
+    [SerializeField] AudioSource _soundEffectsSource;
+    [SerializeField] AudioSource _musicPlayerSource;
+    [SerializeField] AudioClip _damageSound;
+    [SerializeField] AudioClip _victorySound;
+    [SerializeField] AudioClip _gameLostSound;
+    [SerializeField] AudioClip _bgMusic;
     [SerializeField] Enemy _enemyPrefab;
     [SerializeField] float _initialSpawnInterval = 2;
     [SerializeField] float _spawnInterval = 2;
@@ -24,20 +29,27 @@ public class GameManager : MonoBehaviour
             Random.Range(bounds.min.z, bounds.max.z)
         );
     }
+
+    public void Awake()
+    {
+        _musicPlayerSource.clip = _bgMusic;
+    }
     public void RestartGame()
     {
         Debug.Log("Game restarting.");
         if (spawnEnemiesCoutine != null) StopCoroutine(spawnEnemiesCoutine);
-        _isGameRunning = true;
         _currentHealth = _startingHealth;
         _spawnInterval = _initialSpawnInterval;
         _totalEnemiesSpawned = 0;
         _enemies.ForEach(e => Destroy(e.gameObject));
         _enemies.Clear();
+        _musicPlayerSource.Stop();
         spawnEnemiesCoutine = StartCoroutine(nameof(EnemySpawnerCoroutine));
     }
     IEnumerator EnemySpawnerCoroutine()
     {
+        yield return new WaitForSeconds(3f);
+        _musicPlayerSource.Play();
         while (_totalEnemiesSpawned < _maxSpawnCount)
         {
             SpawnEnemy();
@@ -71,12 +83,14 @@ public class GameManager : MonoBehaviour
         if (_enemies.Any(e => !e.HasBeenHit)) return;
 
         Debug.Log("Player won the game!");
+        _soundEffectsSource.PlayOneShot(_victorySound);
         RestartGame();
     }
 
     void OnEnemyReachedDamageZone()
     {
         _currentHealth -= 1;
+        _soundEffectsSource.PlayOneShot(_damageSound);
         Debug.Log($"Damage received. Current health: {_currentHealth}");
         if (_currentHealth == 0 )
         {
@@ -86,6 +100,7 @@ public class GameManager : MonoBehaviour
 
     void LoseGame()
     {
+        _soundEffectsSource.PlayOneShot(_gameLostSound);
         RestartGame();
     }
 

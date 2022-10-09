@@ -366,6 +366,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 8995184104310155795}
+  firingSound: {fileID: 8300000, guid: 7d75c287428acee42b2af2d85a70f7a4, type: 3}
   _initialVelocity: 35
   _lifeTimeSeconds: 4
   _explosionForce: 650
+  _explosionRadius: 3.75

@@ -7,6 +7,7 @@ using UnityEngine.Pool;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rb;
+    [SerializeField] public AudioClip firingSound;
     [SerializeField] private float _initialVelocity = 5;
     [SerializeField] private float _lifeTimeSeconds = 8;
     [SerializeField] private float _explosionForce = 300f;
@@ -38,7 +39,7 @@ public class Projectile : MonoBehaviour
             Rigidbody rb = hit.GetComponentInParent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddExplosionForce(_explosionForce, this.transform.position, _explosionRadius);
+                rb.AddExplosionForce(_explosionForce, this.transform.position, _explosionRadius + 0.5f, 0.1f);
             }
             Enemy enemy = hit.GetComponentInParent<Enemy>();
             if (enemy != null)

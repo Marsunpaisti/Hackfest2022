@@ -7,6 +7,7 @@ public class PlayerGun : MonoBehaviour
 {
     [SerializeField] private Transform _gunBarrel;
     [SerializeField] private InputHandler _inputHandler;
+    [SerializeField] private AudioSource _audioSource;
     [SerializeField] private Projectile _projectilePrefab;
     [SerializeField] private float _timeBetweenShots = 0.7f;
     private float _currentShotCooldown = 0f;
@@ -20,6 +21,10 @@ public class PlayerGun : MonoBehaviour
         if (!_inputHandler)
         {
             _inputHandler = FindObjectOfType<InputHandler>();
+        }
+        if (!_audioSource)
+        {
+            _audioSource = GetComponent<AudioSource>();
         }
 
         _inputHandler.onFire += Fire;
@@ -67,6 +72,7 @@ public class PlayerGun : MonoBehaviour
         if (_currentShotCooldown > 0) return;
         Projectile newProjectile = _projectilePool.Get();
         newProjectile.Fire(_gunBarrel.position, _gunBarrel.forward);
+        _audioSource.PlayOneShot(newProjectile.firingSound);
         _currentShotCooldown = _timeBetweenShots;
     }
     public void Update()
